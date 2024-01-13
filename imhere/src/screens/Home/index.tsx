@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Text,
   TextInput,
@@ -7,25 +8,36 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Participant } from "../../components/Participant";
+import { useState } from "react";
 
 export function Home() {
-  const participants = [
-    "Jhonatas1",
-    "Jhonatas2",
-    "Jhonatas3",
-    "Jhonatas4",
-    "Jhonatas5",
-    "Jhonatas6",
-    "Jhonatas7",
-    "Jhonatas8",
-    "Jhonatas9",
-  ];
+  const [participants, setParticipants] = useState(["Jhonatas"]);
 
   function handleParticipantAdd() {
-    console.log("Cliquei aqui");
+    if (participants.includes("Jhonatas1")) {
+      return Alert.alert(
+        "Participante existe",
+        "Já existe um participante com esse nome."
+      );
+    }
+    setParticipants((prevState) => [...prevState, "Novo participante"]);
   }
 
-  function handleParticipantRemove(name) {}
+  function handleParticipantRemove(name: string) {
+    Alert.alert("Remover", `Remover o participante ${name}?`, [
+      {
+        text: "Sim",
+        onPress: () => {
+          participants.splice(participants.indexOf(name), 1);
+        },
+      },
+      {
+        text: "Não",
+        style: "cancel",
+      },
+    ]);
+    console.log(name);
+  }
 
   return (
     <View style={styles.container}>
